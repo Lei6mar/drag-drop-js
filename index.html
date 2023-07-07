@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag and Drop Example</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 500px;
+      
+    }
+
+    #dropzone {
+      border: 1px dashed blue;
+      width: 300px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="dropzone"><span>Arrastra y suelta una imagen aquí</span></div>
+
+  <img id="preview" src="" alt="vista previa de la imagen soltada" style="display: none; height: 500px; width: auto;">
+  <script>
+    const dropzone = document.getElementById('dropzone')
+    const preview = document.getElementById('preview')
+
+    dropzone.addEventListener('dragover', function (e) {
+      e.preventDefault();
+    })
+
+    dropzone.addEventListener('drop', function (e) {
+      e.preventDefault()
+      const file = e.dataTransfer.files[0]
+
+      if (file.type.match('image.*')) {
+        const reader = new FileReader()
+
+        reader.readAsDataURL(file)
+
+        reader.onload = function (e) {
+          preview.src = e.target.result
+          preview.style.display = 'block'
+        }
+      } else {
+        alert('El archivo no es una imagen')
+      }
+    })
+  </script>
+</body>
+
+</html>
